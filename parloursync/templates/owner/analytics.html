@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page-specific Assets -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+<div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="border-b border-slate-100 pb-6 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h1 class="display-font text-3xl font-bold text-slate-900">Business Intelligence</h1>
+            <p class="text-sm text-slate-500 mt-1">Review your revenue metrics, customer acquisition rates, and stylist performance charts.</p>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="window.print()" class="px-4 py-2.5 border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold text-sm rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                <i data-lucide="printer" class="w-4 h-4"></i> Export Statement
+            </button>
+        </div>
+    </div>
+
+    <!-- Stat Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Stat Card 1 -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Lifetime Revenue</span>
+                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <i data-lucide="dollar-sign" class="w-4 h-4"></i>
+                </div>
+            </div>
+            <p class="text-3xl font-extrabold text-slate-900 mt-4 display-font">${{ "%.2f"|format(total_revenue or 0) }}</p>
+            <span class="text-xs text-emerald-600 font-bold flex items-center gap-1 mt-1">
+                <i data-lucide="trending-up" class="w-3 h-3"></i> +12.4% vs last month
+            </span>
+        </div>
+
+        <!-- Stat Card 2 -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Bookings</span>
+                <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                </div>
+            </div>
+            <p class="text-3xl font-extrabold text-slate-900 mt-4 display-font">{{ total_bookings or 0 }}</p>
+            <span class="text-xs text-indigo-600 font-bold flex items-center gap-1 mt-1">
+                <i data-lucide="trending-up" class="w-3 h-3"></i> +4.8% vs last month
+            </span>
+        </div>
+
+        <!-- Stat Card 3 -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">AOV (Ticket Size)</span>
+                <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+                    <i data-lucide="tag" class="w-4 h-4"></i>
+                </div>
+            </div>
+            <p class="text-3xl font-extrabold text-slate-900 mt-4 display-font">
+                {% if total_bookings and total_bookings > 0 %}
+                    ${{ "%.2f"|format(total_revenue / total_bookings) }}
+                {% else %}
+                    $0.00
+                {% endif %}
+            </p>
+            <span class="text-xs text-slate-400 font-medium flex items-center gap-1 mt-1">
+                Averaged across all services
+            </span>
+        </div>
+
+        <!-- Stat Card 4 -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Pending Pipeline</span>
+                <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
+                    <i data-lucide="clock" class="w-4 h-4"></i>
+                </div>
+            </div>
+            <p class="text-3xl font-extrabold text-slate-900 mt-4 display-font">{{ pending_bookings or 0 }}</p>
+            <span class="text-xs text-rose-600 font-bold flex items-center gap-1 mt-1">
+                Awaiting confirmation click
+            </span>
+        </div>
+    </div>
+
+    <!-- Charts Panel -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Monthly Revenue Chart -->
+        <div class="lg:col-span-2 bg-white border border-slate-100 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-sm">Monthly Revenue Distribution</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Rolling monthly overview for current fiscal cycle</p>
+                </div>
+                <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Fiscal 2026</span>
+            </div>
+            <div class="h-64 relative">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Booking Status Doughnut -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+            <div class="mb-6">
+                <h3 class="font-bold text-slate-900 text-sm">Session Confirmation Breakdown</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Ratio of completed vs pending appointments</p>
+            </div>
+            <div class="h-48 relative flex items-center justify-center">
+                <canvas id="bookingStatusChart" 
+                        data-pending="{{ pending_bookings or 0 }}" 
+                        data-confirmed="{{ confirmed_bookings or 0 }}" 
+                        data-completed="{{ completed_bookings or 0 }}" 
+                        data-cancelled="{{ cancelled_bookings or 0 }}"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Lists -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Popular Services Distribution -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+            <div class="mb-6">
+                <h3 class="font-bold text-slate-900 text-sm">Service Popularity</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Volume distribution across top catalog items</p>
+            </div>
+            <div class="h-64 relative">
+                <canvas id="serviceDistributionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Best Stylist Performers list -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+            <div class="border-b border-slate-50 pb-4 mb-4">
+                <h3 class="font-bold text-slate-900 text-sm">Stylist Leaderboard</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Total assignments and positive customer feedback ratio</p>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-xl transition">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80');"></div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-xs">Alessandra Vance</h4>
+                            <p class="text-[10px] text-indigo-600 font-semibold uppercase tracking-wider">Creative Director</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs font-extrabold text-slate-900">42 bookings</span>
+                        <span class="block text-[10px] text-emerald-600 font-bold">98% satisfaction</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-xl transition">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80');"></div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-xs">Julian Moreau</h4>
+                            <p class="text-[10px] text-indigo-600 font-semibold uppercase tracking-wider">Master Colorist</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs font-extrabold text-slate-900">28 bookings</span>
+                        <span class="block text-[10px] text-emerald-600 font-bold">100% satisfaction</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-xl transition">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80');"></div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-xs">Dr. Linnea Croft</h4>
+                            <p class="text-[10px] text-indigo-600 font-semibold uppercase tracking-wider">Spa Specialist</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs font-extrabold text-slate-900">24 bookings</span>
+                        <span class="block text-[10px] text-emerald-600 font-bold">96% satisfaction</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-xl transition">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80');"></div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-xs">Marcus Sterling</h4>
+                            <p class="text-[10px] text-indigo-600 font-semibold uppercase tracking-wider">Senior Barber</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs font-extrabold text-slate-900">19 bookings</span>
+                        <span class="block text-[10px] text-emerald-600 font-bold">95% satisfaction</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load Chart.js from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Load charts custom config -->
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

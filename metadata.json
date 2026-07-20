@@ -1,0 +1,6 @@
+{
+  "name": "ParlourSync",
+  "description": "Enterprise-Level Salon Appointment Booking and Business Management Platform with dual portals for Customers and Business Owners.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

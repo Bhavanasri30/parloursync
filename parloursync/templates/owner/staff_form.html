@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    
+    <div class="mb-6">
+        <a href="{{ url_for('owner.list_staff') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-slate-800 transition">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Stylists
+        </a>
+    </div>
+
+    <div class="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm">
+        <div class="border-b border-slate-100 pb-5 mb-6">
+            <h1 class="display-font text-2xl font-bold text-slate-900">{{ title }}</h1>
+            <p class="text-sm text-slate-500 mt-1">Configure name, professional biography, specialties, and contact details for client allocation.</p>
+        </div>
+
+        <form method="POST" action="" class="space-y-6">
+            {{ form.hidden_tag() }}
+
+            <!-- Name -->
+            <div>
+                <label for="name" class="block text-sm font-medium text-slate-700">Staff Full Name</label>
+                <div class="mt-1.5">
+                    {{ form.name(class="appearance-none block w-full px-4 py-2.5 border border-slate-300 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", placeholder="e.g. Sarah Jenkins") }}
+                </div>
+                {% if form.name.errors %}
+                    {% for error in form.name.errors %}
+                        <p class="mt-1 text-xs text-rose-600">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-slate-700">Email Address</label>
+                <div class="mt-1.5">
+                    {{ form.email(class="appearance-none block w-full px-4 py-2.5 border border-slate-300 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", placeholder="sarah@parloursync.com") }}
+                </div>
+                {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                        <p class="mt-1 text-xs text-rose-600">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Bio / Specialty -->
+            <div>
+                <label for="bio" class="block text-sm font-medium text-slate-700">Bio / Specialties</label>
+                <div class="mt-1.5">
+                    {{ form.bio(class="appearance-none block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-32", placeholder="Describe their experience, hair styling/skincare certifications, nail art specialties...") }}
+                </div>
+                {% if form.bio.errors %}
+                    {% for error in form.bio.errors %}
+                        <p class="mt-1 text-xs text-rose-600">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Action buttons -->
+            <div class="pt-5 border-t border-slate-50 flex justify-end gap-3">
+                <a href="{{ url_for('owner.list_staff') }}" class="px-5 py-2.5 border border-slate-200 text-slate-700 font-semibold text-sm rounded-xl hover:bg-slate-50 transition">
+                    Cancel
+                </a>
+                {{ form.submit(class="px-5 py-2.5 border border-transparent font-semibold text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow transition cursor-pointer") }}
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

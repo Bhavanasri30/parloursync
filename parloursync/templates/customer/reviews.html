@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page-specific Assets -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<div class="max-w-5xl mx-auto">
+    <!-- Header -->
+    <div class="border-b border-slate-100 pb-6 mb-8">
+        <h1 class="display-font text-3xl font-bold text-slate-900">Patron Testimonials</h1>
+        <p class="text-sm text-slate-500 mt-1">Read honest reviews from our valued clients and share your own experience.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Rating Summary Card -->
+        <div class="space-y-6">
+            <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm text-center">
+                <h3 class="font-bold text-slate-900 text-sm">Average Rating</h3>
+                <div class="mt-4">
+                    <span class="text-5xl font-extrabold text-slate-900 display-font">4.9</span>
+                    <span class="text-slate-400 text-sm">/5</span>
+                </div>
+                <!-- Stars -->
+                <div class="flex text-[#dfac6c] justify-center gap-1.5 mt-3">
+                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                </div>
+                <p class="text-xs text-slate-500 mt-3">Based on 142 verified bookings</p>
+
+                <!-- Rating Breakdowns -->
+                <div class="space-y-2 mt-6">
+                    <!-- 5 stars -->
+                    <div class="flex items-center text-xs gap-2">
+                        <span class="w-10 text-slate-500 text-left">5 star</span>
+                        <div class="flex-grow h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="bg-[#dfac6c] h-full" style="width: 92%"></div>
+                        </div>
+                        <span class="w-8 text-slate-400 text-right">92%</span>
+                    </div>
+                    <!-- 4 stars -->
+                    <div class="flex items-center text-xs gap-2">
+                        <span class="w-10 text-slate-500 text-left">4 star</span>
+                        <div class="flex-grow h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="bg-[#dfac6c] h-full" style="width: 6%"></div>
+                        </div>
+                        <span class="w-8 text-slate-400 text-right">6%</span>
+                    </div>
+                    <!-- 3 stars -->
+                    <div class="flex items-center text-xs gap-2">
+                        <span class="w-10 text-slate-500 text-left">3 star</span>
+                        <div class="flex-grow h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="bg-[#dfac6c] h-full" style="width: 2%"></div>
+                        </div>
+                        <span class="w-8 text-slate-400 text-right">2%</span>
+                    </div>
+                    <!-- 2 stars -->
+                    <div class="flex items-center text-xs gap-2">
+                        <span class="w-10 text-slate-500 text-left">2 star</span>
+                        <div class="flex-grow h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="bg-[#dfac6c] h-full" style="width: 0%"></div>
+                        </div>
+                        <span class="w-8 text-slate-400 text-right">0%</span>
+                    </div>
+                    <!-- 1 star -->
+                    <div class="flex items-center text-xs gap-2">
+                        <span class="w-10 text-slate-500 text-left">1 star</span>
+                        <div class="flex-grow h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="bg-[#dfac6c] h-full" style="width: 0%"></div>
+                        </div>
+                        <span class="w-8 text-slate-400 text-right">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Share your review form -->
+            <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+                <h3 class="font-bold text-slate-900 text-sm mb-4">Leave a Review</h3>
+                {% if current_user.is_authenticated %}
+                    <form method="POST" action="" class="space-y-4">
+                        <!-- Rating -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 uppercase">Your Rating</label>
+                            <div class="flex text-slate-300 gap-1 mt-1.5" id="rating-stars-picker">
+                                <button type="button" data-rating="1" class="hover:text-[#dfac6c] focus:outline-none"><i data-lucide="star" class="w-6 h-6"></i></button>
+                                <button type="button" data-rating="2" class="hover:text-[#dfac6c] focus:outline-none"><i data-lucide="star" class="w-6 h-6"></i></button>
+                                <button type="button" data-rating="3" class="hover:text-[#dfac6c] focus:outline-none"><i data-lucide="star" class="w-6 h-6"></i></button>
+                                <button type="button" data-rating="4" class="hover:text-[#dfac6c] focus:outline-none"><i data-lucide="star" class="w-6 h-6"></i></button>
+                                <button type="button" data-rating="5" class="hover:text-[#dfac6c] focus:outline-none"><i data-lucide="star" class="w-6 h-6"></i></button>
+                            </div>
+                            <input type="hidden" name="rating" id="rating-value" value="5" required>
+                        </div>
+
+                        <!-- Review Text -->
+                        <div>
+                            <label for="review-text" class="block text-xs font-semibold text-slate-500 uppercase">Review Details</label>
+                            <textarea id="review-text" name="comment" rows="4" class="mt-1.5 w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-400" placeholder="Tell us what you loved about your visit..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm py-2.5 rounded-xl transition shadow-sm flex items-center justify-center gap-1">
+                            Submit Review
+                        </button>
+                    </form>
+                {% else %}
+                    <div class="text-center py-4">
+                        <p class="text-sm text-slate-500">Please sign in to share your experience with other patrons.</p>
+                        <a href="{{ url_for('auth.login') }}" class="inline-flex items-center gap-1 text-xs font-bold text-indigo-600 hover:text-indigo-800 mt-3">
+                            Sign In Now <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Reviews List -->
+        <div class="lg:col-span-2 space-y-6">
+            <!-- Review Card 1 -->
+            <div class="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">AM</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Audrey Mendoza</h4>
+                            <p class="text-[10px] text-slate-400">Verified Treatment Booking</p>
+                        </div>
+                    </div>
+                    <span class="text-xs text-slate-400">July 18, 2026</span>
+                </div>
+                <div class="flex text-[#dfac6c] gap-1 mt-3">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-600 text-sm mt-3 leading-relaxed">"The level of precision and detail here is unmatched. It truly is a high-end luxury treatment. The team is friendly and the environment is exceptionally clean."</p>
+            </div>
+
+            <!-- Review Card 2 -->
+            <div class="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-sm">RH</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Richard Helm</h4>
+                            <p class="text-[10px] text-slate-400">Verified Barber Styling</p>
+                        </div>
+                    </div>
+                    <span class="text-xs text-slate-400">July 15, 2026</span>
+                </div>
+                <div class="flex text-[#dfac6c] gap-1 mt-3">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-600 text-sm mt-3 leading-relaxed">"Exceptional styling and haircut. Always consistent, professional, and on schedule. The app is incredibly simple to book appointments."</p>
+            </div>
+
+            <!-- Review Card 3 -->
+            <div class="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-sm">CK</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Claire Kincaid</h4>
+                            <p class="text-[10px] text-slate-400">Verified Facial Massage</p>
+                        </div>
+                    </div>
+                    <span class="text-xs text-slate-400">July 09, 2026</span>
+                </div>
+                <div class="flex text-[#dfac6c] gap-1 mt-3">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-3.5 h-3.5 text-slate-200"></i>
+                </div>
+                <p class="text-slate-600 text-sm mt-3 leading-relaxed">"Wonderful aromatherapy massage! Highly recommend for anyone looking to distress. Very quiet, cozy treatment rooms."</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+                <span class="text-xs text-slate-500">Showing 1-3 of 142 reviews</span>
+                <div class="flex gap-2">
+                    <button class="px-3 py-1.5 text-xs font-semibold border border-slate-200 rounded-lg text-slate-400 cursor-not-allowed" disabled>Previous</button>
+                    <button class="px-3 py-1.5 text-xs font-semibold border border-slate-200 rounded-lg text-slate-700 hover:bg-slate-50 transition">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const starPicker = document.getElementById('rating-stars-picker');
+    const ratingVal = document.getElementById('rating-value');
+    if (starPicker && ratingVal) {
+        const starBtns = starPicker.querySelectorAll('button');
+        starBtns.forEach((btn, idx) => {
+            btn.addEventListener('click', () => {
+                const rating = idx + 1;
+                ratingVal.value = rating;
+                starBtns.forEach((b, i) => {
+                    const icon = b.querySelector('svg');
+                    if (i < rating) {
+                        icon.classList.add('fill-current', 'text-[#dfac6c]');
+                        icon.classList.remove('text-slate-300');
+                    } else {
+                        icon.classList.remove('fill-current', 'text-[#dfac6c]');
+                        icon.classList.add('text-slate-300');
+                    }
+                });
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

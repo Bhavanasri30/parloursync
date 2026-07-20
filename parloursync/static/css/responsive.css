@@ -1,0 +1,66 @@
+/* Responsive styling for ParlourSync across mobile, tablet, and desktop */
+
+/* Base container fluidity */
+.content-container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+    .content-container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .content-container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+/* Touch targets for mobile */
+@media (max-width: 768px) {
+    button, 
+    a, 
+    input, 
+    select, 
+    .touch-target {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Sidebar Responsive Layout */
+@media (min-width: 1024px) {
+    .sidebar-open {
+        margin-left: 260px;
+    }
+}
+
+/* Custom Grid Adjustments */
+.grid-luxury {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+    .grid-luxury {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}

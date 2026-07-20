@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="space-y-8">
+    
+    <!-- Hero / Welcome Banner -->
+    <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg relative overflow-hidden">
+        <div class="relative z-10 max-w-2xl">
+            <span class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 bg-indigo-500/30 text-indigo-200 rounded-full mb-4 border border-indigo-400/20">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Customer Portal
+            </span>
+            <h1 class="display-font text-3xl md:text-4xl font-extrabold tracking-tight">
+                Hello, {{ current_user.username }}!
+            </h1>
+            <p class="mt-2 text-indigo-100 text-sm md:text-base leading-relaxed">
+                Welcome to your salon sanctuary. View your appointments, reschedule, or book your next aesthetic treatment.
+            </p>
+            <div class="mt-6">
+                <a href="{{ url_for('customer.book') }}" class="inline-flex items-center gap-2 bg-white text-indigo-900 font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-indigo-50 transition shadow-md">
+                    <i data-lucide="calendar-plus" class="w-4 h-4"></i> Book New Session
+                </a>
+            </div>
+        </div>
+        <!-- Decorative subtle grid -->
+        <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    </div>
+
+    <!-- Active / Upcoming Bookings -->
+    <div>
+        <h2 class="display-font text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
+            <i data-lucide="calendar-check" class="w-5 h-5 text-indigo-600"></i> Upcoming Appointments
+        </h2>
+
+        {% if upcoming %}
+            <div class="grid gap-6 md:grid-cols-2">
+                {% for appt in upcoming %}
+                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm relative hover:shadow-md transition">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Service</span>
+                                <h3 class="text-lg font-bold text-slate-900 mt-0.5">{{ appt.service.name }}</h3>
+                            </div>
+                            <!-- Status Badges -->
+                            {% if appt.status == 'confirmed' %}
+                                <span class="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmed
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-full">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Pending
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Appointment Details -->
+                        <div class="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-slate-50">
+                            <div>
+                                <div class="text-xs text-slate-400 font-medium">Stylist</div>
+                                <div class="text-sm font-semibold text-slate-800 mt-0.5 flex items-center gap-1">
+                                    <i data-lucide="user" class="w-4 h-4 text-slate-400"></i> {{ appt.staff.name }}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-400 font-medium">Price & Duration</div>
+                                <div class="text-sm font-semibold text-slate-800 mt-0.5 flex items-center gap-1">
+                                    <i data-lucide="dollar-sign" class="w-4 h-4 text-slate-400"></i> {{ "%.2f"|format(appt.service.price) }} <span class="text-xs font-normal text-slate-400 ml-1">({{ appt.service.duration_minutes }}m)</span>
+                                </div>
+                            </div>
+                            <div class="col-span-2">
+                                <div class="text-xs text-slate-400 font-medium">Time & Date</div>
+                                <div class="text-sm font-semibold text-indigo-900 mt-0.5 flex items-center gap-1.5 bg-indigo-50/50 p-2 rounded-lg border border-indigo-100/30">
+                                    <i data-lucide="clock" class="w-4 h-4 text-indigo-500"></i> 
+                                    {{ appt.appointment_time.strftime('%A, %b %d at %I:%M %p') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if appt.notes %}
+                            <div class="mt-4 p-3 bg-slate-50 rounded-xl text-xs text-slate-600 border border-slate-100">
+                                <span class="font-semibold text-slate-700">Notes:</span> {{ appt.notes }}
+                            </div>
+                        {% endif %}
+
+                        <!-- Action Buttons -->
+                        <div class="mt-6 flex justify-end gap-2 pt-4 border-t border-slate-100">
+                            <form action="{{ url_for('customer.cancel_appointment', id=appt.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                                <button type="submit" class="inline-flex items-center gap-1 text-xs font-semibold text-rose-600 hover:text-rose-800 hover:bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-100 transition cursor-pointer">
+                                    <i data-lucide="calendar-x" class="w-3.5 h-3.5"></i> Cancel Booking
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty state -->
+            <div class="bg-white border border-dashed border-slate-200 rounded-3xl p-12 text-center max-w-lg mx-auto">
+                <div class="inline-flex p-4 bg-indigo-50 text-indigo-600 rounded-2xl mb-4">
+                    <i data-lucide="calendar" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">No upcoming appointments</h3>
+                <p class="text-slate-500 text-sm mt-1">Book your salon session now to schedule stylists, treatments, and timings.</p>
+                <a href="{{ url_for('customer.book') }}" class="mt-6 inline-flex items-center gap-2 bg-indigo-600 text-white font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-indigo-700 transition shadow">
+                    <i data-lucide="plus" class="w-4 h-4"></i> Book Session
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- History / Cancelled Bookings -->
+    <div class="pt-4">
+        <h2 class="display-font text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
+            <i data-lucide="history" class="w-5 h-5 text-slate-500"></i> Past & Cancelled Sessions
+        </h2>
+
+        {% if past_or_cancelled %}
+            <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-200 text-left">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="px-6 py-3.5 text-xs font-bold text-slate-500 uppercase tracking-wider">Service</th>
+                                <th class="px-6 py-3.5 text-xs font-bold text-slate-500 uppercase tracking-wider">Stylist</th>
+                                <th class="px-6 py-3.5 text-xs font-bold text-slate-500 uppercase tracking-wider">Date & Time</th>
+                                <th class="px-6 py-3.5 text-xs font-bold text-slate-500 uppercase tracking-wider">Cost</th>
+                                <th class="px-6 py-3.5 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            {% for appt in past_or_cancelled %}
+                                <tr class="hover:bg-slate-50/50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm font-semibold text-slate-800">{{ appt.service.name }}</div>
+                                        <div class="text-xs text-slate-400">{{ appt.service.duration_minutes }} mins</div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600">
+                                        {{ appt.staff.name }}
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600">
+                                        {{ appt.appointment_time.strftime('%b %d, %Y at %I:%M %p') }}
+                                    </td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-slate-800">
+                                        ${{ "%.2f"|format(appt.service.price) }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {% if appt.status == 'cancelled' %}
+                                            <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 bg-rose-50 text-rose-700 rounded-full border border-rose-100">
+                                                Cancelled
+                                            </span>
+                                        {% elif appt.status == 'completed' %}
+                                            <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-100">
+                                                Completed
+                                            </span>
+                                        {% else %}
+                                            <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 bg-slate-50 text-slate-600 rounded-full border border-slate-100">
+                                                Past
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-sm text-slate-400 italic">No past booking records.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

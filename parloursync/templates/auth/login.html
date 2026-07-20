@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-[60vh] flex flex-col justify-center py-6 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 class="display-font text-center text-3xl font-extrabold text-slate-900 tracking-tight">
+            Log in to your account
+        </h2>
+        <p class="mt-2 text-center text-sm text-slate-600">
+            Or
+            <a href="{{ url_for('auth.register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                create a new account
+            </a>
+        </p>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow-md rounded-2xl sm:px-10 border border-slate-100">
+            <form method="POST" action="" class="space-y-6">
+                {{ form.hidden_tag() }}
+                
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-slate-700">Email Address</label>
+                    <div class="mt-1">
+                        {{ form.email(class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm") }}
+                    </div>
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            <p class="mt-1 text-xs text-rose-600">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
+                    <div class="mt-1">
+                        {{ form.password(class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm") }}
+                    </div>
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <p class="mt-1 text-xs text-rose-600">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    {{ form.submit(class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition cursor-pointer") }}
+                </div>
+            </form>
+
+            <!-- Quick Demo Login panel -->
+            <div class="mt-8 pt-6 border-t border-slate-100">
+                <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider text-center mb-4">
+                    Quick Demo Credentials
+                </span>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="fillDemo('owner@parloursync.com')" class="flex flex-col items-center justify-center p-3 border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-indigo-300 transition text-left group">
+                        <span class="text-xs font-semibold text-slate-800 flex items-center gap-1 group-hover:text-indigo-600">
+                            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Owner Demo
+                        </span>
+                        <span class="text-[10px] text-slate-400 mt-0.5">owner@parloursync.com</span>
+                    </button>
+                    <button onclick="fillDemo('customer@parloursync.com')" class="flex flex-col items-center justify-center p-3 border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-indigo-300 transition text-left group">
+                        <span class="text-xs font-semibold text-slate-800 flex items-center gap-1 group-hover:text-indigo-600">
+                            <i data-lucide="user" class="w-3.5 h-3.5"></i> Customer Demo
+                        </span>
+                        <span class="text-[10px] text-slate-400 mt-0.5">customer@parloursync.com</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function fillDemo(email) {
+        document.getElementById('email').value = email;
+        document.getElementById('password').value = 'password';
+    }
+</script>
+{% endblock %}

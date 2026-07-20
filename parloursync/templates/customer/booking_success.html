@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page-specific Assets -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<div class="max-w-md mx-auto text-center py-10">
+    <!-- Success Badge -->
+    <div class="w-20 h-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md border border-emerald-100">
+        <i data-lucide="check-circle" class="w-12 h-12"></i>
+    </div>
+
+    <!-- Celebration Headers -->
+    <h1 class="display-font text-3xl font-bold text-slate-900">Appointment Booked!</h1>
+    <p class="text-slate-500 text-sm mt-2">Your request is received and reserved on our calendar schedule.</p>
+
+    <!-- Details Card -->
+    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm text-left mt-8 space-y-4">
+        <h3 class="text-xs font-bold uppercase text-slate-400 tracking-widest border-b border-slate-50 pb-2">Appointment Summary</h3>
+        
+        {% if appointment %}
+            <!-- Service -->
+            <div class="flex justify-between items-center text-sm">
+                <span class="text-slate-500">Service Treatment</span>
+                <span class="font-semibold text-slate-900">{{ appointment.service.name }}</span>
+            </div>
+            <!-- Stylist -->
+            <div class="flex justify-between items-center text-sm">
+                <span class="text-slate-500">Stylist Specialist</span>
+                <span class="font-semibold text-slate-900">{{ appointment.staff.name }}</span>
+            </div>
+            <!-- Date / Time -->
+            <div class="flex justify-between items-center text-sm">
+                <span class="text-slate-500">Scheduled Time</span>
+                <span class="font-semibold text-indigo-600">
+                    {{ appointment.appointment_time.strftime('%b %d, %Y at %I:%M %p') if appointment.appointment_time else 'Scheduled' }}
+                </span>
+            </div>
+            <!-- Duration -->
+            <div class="flex justify-between items-center text-sm">
+                <span class="text-slate-500">Duration</span>
+                <span class="font-semibold text-slate-900">{{ appointment.service.duration }} mins</span>
+            </div>
+            <!-- Service Charge -->
+            <div class="flex justify-between items-center text-sm pt-3 border-t border-slate-50">
+                <span class="text-slate-500 font-medium">Estimated Charge</span>
+                <span class="font-bold text-slate-900 text-base">${{ "%.2f"|format(appointment.service.price) }}</span>
+            </div>
+        {% else %}
+            <!-- Fallback when accessed directly -->
+            <div class="flex justify-between items-center text-sm">
+                <span class="text-slate-500">Treatment</span>
+                <span class="font-semibold text-slate-900">Bespoke Hair & Care Ritual</span>
+            </div>
+            <div class="flex justify-between items-center text-sm">
+                <span class="text-slate-500">Stylist Specialist</span>
+                <span class="font-semibold text-slate-900">Assigned Master Stylist</span>
+            </div>
+            <div class="flex justify-between items-center text-sm">
+                <span class="text-slate-500">Status</span>
+                <span class="font-semibold text-emerald-600">Pending Confirmation</span>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Helper tips -->
+    <div class="mt-6 flex gap-2 justify-center items-center text-xs text-slate-400 bg-slate-50 border border-slate-100 p-3 rounded-xl">
+        <i data-lucide="info" class="w-4 h-4 text-slate-400 flex-shrink-0"></i>
+        <span>Need to reschedule? Please contact support or cancel at least 24 hours prior.</span>
+    </div>
+
+    <!-- Action Navigation Buttons -->
+    <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="{{ url_for('customer.dashboard') }}" class="px-5 py-3 border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold text-sm rounded-xl shadow-sm transition flex items-center justify-center gap-1.5">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i> View My Dashboard
+        </a>
+        <a href="{{ url_for('customer.book') }}" class="px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-xl shadow transition flex items-center justify-center gap-1.5">
+            <i data-lucide="plus" class="w-4 h-4"></i> Book Another Appointment
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+/* Luxury Dashboard CSS for ParlourSync */
+:root {
+    --primary-glow: radial-gradient(rgba(79, 70, 229, 0.15), rgba(79, 70, 229, 0));
+    --luxury-gold: #d4af37;
+    --luxury-gold-dark: #aa8416;
+}
+
+/* Glassmorphism elements */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.dark-glass-panel {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Custom transitions and hover states */
+.luxury-card {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px -10px rgba(79, 70, 229, 0.12);
+}
+
+/* Luxury gold gradients */
+.gold-text-gradient {
+    background: linear-gradient(135deg, #fce0ad 0%, #dfac6c 50%, #c68b45 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gold-bg-gradient {
+    background: linear-gradient(135deg, #dfac6c 0%, #c68b45 100%);
+}
+
+.gold-border {
+    border-color: #dfac6c;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.5);
+}
+
+/* Interactive elements */
+.custom-checkbox:checked {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+}
+
+/* Premium micro-interactions */
+button, a {
+    transition: all 0.2s ease-in-out;
+}

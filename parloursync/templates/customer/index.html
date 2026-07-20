@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page-specific Assets -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<!-- Luxury Hero Section -->
+<div class="relative bg-slate-900 text-white rounded-3xl overflow-hidden mb-16 shadow-2xl">
+    <!-- Background overlay / image wrapper -->
+    <div class="absolute inset-0 opacity-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1600&q=80');"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/90 to-transparent"></div>
+    
+    <div class="relative max-w-4xl mx-auto px-6 py-20 md:py-32 flex flex-col justify-center text-center md:text-left">
+        <span class="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-[#dfac6c] mb-4">
+            <i data-lucide="sparkles" class="w-4 h-4"></i> Welcome to ParlourSync
+        </span>
+        <h1 class="display-font text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
+            Elevating the Art of <br class="hidden md:inline">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#fce0ad] via-[#dfac6c] to-[#c68b45]">Luxury Grooming</span>
+        </h1>
+        <p class="mt-6 text-base md:text-lg text-slate-300 max-w-xl leading-relaxed">
+            Experience bespoke hair artistry and exquisite facial therapies designed to rejuvenate your senses. Handcrafted styles, tailored explicitly for your dynamic lifestyle.
+        </p>
+        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <a href="{{ url_for('customer.book') }}" class="px-8 py-4 font-bold text-slate-950 bg-gradient-to-r from-[#fce0ad] to-[#dfac6c] hover:from-[#dfac6c] hover:to-[#c68b45] rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                <i data-lucide="calendar-plus" class="w-5 h-5"></i> Book Appointment
+            </a>
+            <a href="{{ url_for('customer.services') }}" class="px-8 py-4 font-bold text-white border border-slate-700 hover:bg-white/10 rounded-xl transition flex items-center justify-center gap-2">
+                View Service Menu
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Services -->
+<div class="mb-20">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest">Our Signature Selections</span>
+        <h2 class="display-font text-3xl font-extrabold text-slate-900 mt-2">Bespoke Rituals & Treatments</h2>
+        <p class="text-slate-500 mt-3">Indulge in our most highly-coveted services, crafted meticulously by master specialists to exceed expectations.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 flex flex-col">
+            <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=600&q=80');"></div>
+            <div class="p-6 flex-grow flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Hair Design</span>
+                    <h3 class="display-font text-xl font-bold text-slate-900 mt-3">Couture Cut & Finish</h3>
+                    <p class="text-slate-500 text-sm mt-2">Personalized consultation, luxury hair bath, precision cut, and dynamic runway-ready blow styling.</p>
+                </div>
+                <div class="border-t border-slate-100 pt-4 mt-6 flex justify-between items-center">
+                    <span class="font-bold text-slate-900 text-lg">$120+</span>
+                    <a href="{{ url_for('customer.book') }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-bold flex items-center gap-1">
+                        Book Now <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 flex flex-col">
+            <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80');"></div>
+            <div class="p-6 flex-grow flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Color Artistry</span>
+                    <h3 class="display-font text-xl font-bold text-slate-900 mt-3">Artisanal Balayage</h3>
+                    <p class="text-slate-500 text-sm mt-2">Hand-painted highlights providing a natural, sun-kissed dimension uniquely blended to your hair movement.</p>
+                </div>
+                <div class="border-t border-slate-100 pt-4 mt-6 flex justify-between items-center">
+                    <span class="font-bold text-slate-900 text-lg">$250+</span>
+                    <a href="{{ url_for('customer.book') }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-bold flex items-center gap-1">
+                        Book Now <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 flex flex-col">
+            <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=600&q=80');"></div>
+            <div class="p-6 flex-grow flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Spa therapies</span>
+                    <h3 class="display-font text-xl font-bold text-slate-900 mt-3">Caviar Rejuvenation Facial</h3>
+                    <p class="text-slate-500 text-sm mt-2">Ultimate anti-aging therapy utilizing premium caviar extracts to intensely hydrate, firm, and restore radiance.</p>
+                </div>
+                <div class="border-t border-slate-100 pt-4 mt-6 flex justify-between items-center">
+                    <span class="font-bold text-slate-900 text-lg">$180+</span>
+                    <a href="{{ url_for('customer.book') }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-bold flex items-center gap-1">
+                        Book Now <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Why Choose Us / Luxury Values -->
+<div class="bg-slate-50 rounded-3xl p-10 md:p-16 mb-20">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+            <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest">Our House Philosophy</span>
+            <h2 class="display-font text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 leading-tight">An Uncompromised Commitment to Luxury Standards</h2>
+            <p class="text-slate-600 mt-4">We believe that grooming is not a mere routine; it is an immersive sensory ritual. From the precision of our shears to the botanical excellence of our premium backbar treatments, everything is designed to soothe and refine.</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+                <div class="flex gap-3">
+                    <div class="flex-shrink-0 w-10 h-10 bg-white border border-slate-100 rounded-xl flex items-center justify-center text-indigo-600 shadow-sm">
+                        <i data-lucide="award" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-sm">Award-Winning Stylists</h4>
+                        <p class="text-slate-500 text-xs mt-1">Our specialists train internationally and stay ahead of world trends.</p>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <div class="flex-shrink-0 w-10 h-10 bg-white border border-slate-100 rounded-xl flex items-center justify-center text-indigo-600 shadow-sm">
+                        <i data-lucide="leaf" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-sm">Organic Botanicals</h4>
+                        <p class="text-slate-500 text-xs mt-1">We utilize cruelty-free, clean products to protect your vitality.</p>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <div class="flex-shrink-0 w-10 h-10 bg-white border border-slate-100 rounded-xl flex items-center justify-center text-indigo-600 shadow-sm">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-sm">Pristine Hygiene</h4>
+                        <p class="text-slate-500 text-xs mt-1">Medical-grade sterilization for all tools and private cabins.</p>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <div class="flex-shrink-0 w-10 h-10 bg-white border border-slate-100 rounded-xl flex items-center justify-center text-indigo-600 shadow-sm">
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-sm">Tailored Experience</h4>
+                        <p class="text-slate-500 text-xs mt-1">Complementary sparkling water, organic teas, and custom mood lighting.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative">
+            <div class="aspect-square rounded-2xl overflow-hidden shadow-xl bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=800&q=80');"></div>
+            <!-- Luxury badge -->
+            <div class="absolute -bottom-6 -left-6 bg-slate-900 text-white p-6 rounded-2xl shadow-2xl border border-slate-800 max-w-xs">
+                <p class="display-font text-lg font-bold text-[#dfac6c]">Voted No. 1 Salon</p>
+                <p class="text-slate-400 text-xs mt-1">Awarded Best Luxury Grooming & Spa Experience in Metro 2026.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stylists Showcase -->
+<div class="mb-20">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest">Master Artists</span>
+        <h2 class="display-font text-3xl font-extrabold text-slate-900 mt-2">Meet Our Elite Artisans</h2>
+        <p class="text-slate-500 mt-3">Our professionals are more than hair stylists; they are sculptors, color chemists, and aesthetic guides.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Stylist 1 -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm text-center">
+            <div class="w-32 h-32 rounded-full mx-auto overflow-hidden bg-cover bg-center mb-4" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80');"></div>
+            <h3 class="font-bold text-slate-900">Alessandra Vance</h3>
+            <p class="text-xs text-indigo-600 font-medium uppercase tracking-wider mt-1">Creative Director</p>
+            <p class="text-slate-500 text-xs mt-2 px-2">12+ years expertise in couture cutting and dynamic color blending.</p>
+        </div>
+        <!-- Stylist 2 -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm text-center">
+            <div class="w-32 h-32 rounded-full mx-auto overflow-hidden bg-cover bg-center mb-4" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80');"></div>
+            <h3 class="font-bold text-slate-900">Julian Moreau</h3>
+            <p class="text-xs text-indigo-600 font-medium uppercase tracking-wider mt-1">Master Colorist</p>
+            <p class="text-slate-500 text-xs mt-2 px-2">Specialist in hand-painted balayage and pastel tone transformations.</p>
+        </div>
+        <!-- Stylist 3 -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm text-center">
+            <div class="w-32 h-32 rounded-full mx-auto overflow-hidden bg-cover bg-center mb-4" style="background-image: url('https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80');"></div>
+            <h3 class="font-bold text-slate-900">Dr. Linnea Croft</h3>
+            <p class="text-xs text-indigo-600 font-medium uppercase tracking-wider mt-1">Spa & Skin Specialist</p>
+            <p class="text-slate-500 text-xs mt-2 px-2">Expert in facial therapy, non-invasive lifting, and skin detoxing.</p>
+        </div>
+        <!-- Stylist 4 -->
+        <div class="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm text-center">
+            <div class="w-32 h-32 rounded-full mx-auto overflow-hidden bg-cover bg-center mb-4" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80');"></div>
+            <h3 class="font-bold text-slate-900">Marcus Sterling</h3>
+            <p class="text-xs text-indigo-600 font-medium uppercase tracking-wider mt-1">Senior Men's Stylist</p>
+            <p class="text-slate-500 text-xs mt-2 px-2">Refined classic barbering, modern texture fading, and beard architecture.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Customer Testimonials -->
+<div class="mb-20">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest">Verified Reviews</span>
+        <h2 class="display-font text-3xl font-extrabold text-slate-900 mt-2">What Our Patron List Says</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white border border-slate-100 p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+            <div>
+                <div class="flex text-[#dfac6c] gap-1 mb-4">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-600 text-sm italic">"The balayage service from Julian completely exceeded my expectations. The subtle transitions in tone are beautiful, and the private suites are wonderfully calming."</p>
+            </div>
+            <div class="border-t border-slate-100 pt-4 mt-6 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center font-bold text-indigo-600 text-sm">EC</div>
+                <div>
+                    <h4 class="font-bold text-slate-900 text-xs">Elena Rostova</h4>
+                    <p class="text-[10px] text-slate-400">Regular Patron</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white border border-slate-100 p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+            <div>
+                <div class="flex text-[#dfac6c] gap-1 mb-4">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-600 text-sm italic">"As someone who values discrete service and perfect precision, Marcus's men's haircut is unmatched. The hot towel aromatherapy afterward is spectacular."</p>
+            </div>
+            <div class="border-t border-slate-100 pt-4 mt-6 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center font-bold text-amber-600 text-sm">DS</div>
+                <div>
+                    <h4 class="font-bold text-slate-900 text-xs">Daniel Sterling</h4>
+                    <p class="text-[10px] text-slate-400">Executive Member</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white border border-slate-100 p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+            <div>
+                <div class="flex text-[#dfac6c] gap-1 mb-4">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-600 text-sm italic">"An absolute sanctuary! The Caviar facial was worth every cent. My skin was radiant for days. The booking portal is incredibly clean to schedule online."</p>
+            </div>
+            <div class="border-t border-slate-100 pt-4 mt-6 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-emerald-600 text-sm">VH</div>
+                <div>
+                    <h4 class="font-bold text-slate-900 text-xs">Dr. Victoria Holt</h4>
+                    <p class="text-[10px] text-slate-400">Premium Member</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white rounded-3xl p-10 md:p-16 text-center border border-slate-800 shadow-2xl relative overflow-hidden">
+    <!-- Overlay graphic circles -->
+    <div class="absolute -top-12 -left-12 w-48 h-48 rounded-full bg-indigo-500/10 blur-2xl"></div>
+    <div class="absolute -bottom-12 -right-12 w-48 h-48 rounded-full bg-[#dfac6c]/10 blur-2xl"></div>
+    
+    <div class="relative max-w-xl mx-auto">
+        <h2 class="display-font text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#fce0ad] via-[#dfac6c] to-[#c68b45]">Ready to Experience Bespoke Grooming?</h2>
+        <p class="text-slate-400 text-sm mt-3 leading-relaxed">Secure your slot in our books today. Select your treatments, customize your artist, and step into our custom lounge sanctuary.</p>
+        <div class="mt-8">
+            <a href="{{ url_for('customer.book') }}" class="inline-flex items-center gap-2 px-8 py-3.5 font-bold text-slate-950 bg-gradient-to-r from-[#fce0ad] to-[#dfac6c] hover:from-[#dfac6c] hover:to-[#c68b45] rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
+                <i data-lucide="calendar" class="w-4 h-4"></i> Book Your Experience Now
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
