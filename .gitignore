@@ -6,6 +6,3 @@ coverage/
 *.log
 .env*
 !.env.example
-*.db
-instance/*.db
-parloursync/instance/*.db
