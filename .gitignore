@@ -6,3 +6,7 @@ coverage/
 *.log
 .env*
 !.env.example
+# Ignore SQLite databases
+*.db
+instance/
+parloursync/instance/
