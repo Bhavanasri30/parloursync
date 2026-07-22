@@ -233,9 +233,11 @@ http://127.0.0.1:5000
 
 ---
 
+Live Demo :https://parloursync-1-n2i2.onrender.com
+
 ## Authors
 
-Developed by the ParlourSync Team
+Developed by the Bhavanasri
 
 ---
 
